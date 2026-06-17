@@ -144,7 +144,15 @@ button:hover{
 
 
 <button onclick="saveDiary()">🌱 保存今天</button>
+<hr>
 
+<h2>📖 历史记录</h2>
+
+<button onclick="showHistory()">
+查看历史记录
+</button>
+
+<div id="history"></div>
 </div>
 
 <script>
@@ -185,7 +193,46 @@ localStorage.setItem("xinlingDiary", JSON.stringify(records));
 
 alert("🌱 今天的心灵日记已保存！");
 }
+function showHistory(){
 
+let records =
+JSON.parse(localStorage.getItem("xinlingDiary")) || [];
+
+let historyDiv =
+document.getElementById("history");
+
+if(records.length === 0){
+    historyDiv.innerHTML = "<p>暂无记录</p>";
+    return;
+}
+
+let html = "";
+
+records.forEach(item => {
+    html += `
+    <div style="border:1px solid #ccc;
+                padding:10px;
+                margin:10px 0;
+                border-radius:10px;">
+        <h3>${item.date}</h3>
+        <p>心情：${item.mood}</p>
+        <p>专注：${item.focus}</p>
+        <p>任务完成：${item.task}</p>
+        <p>精神状态：${item.energy}</p>
+        <p>做得好：${item.good}</p>
+        <p>需改进：${item.improve}</p>
+        <p>真实想法：${item.thought}</p>
+        <p>鼓励自己：${item.encourage}</p>
+        <p>歌曲：${item.song}</p>
+        <p>歌手：${item.artist}</p>
+        <p>推荐理由：${item.reason}</p>
+    </div>
+    `;
+});
+
+historyDiv.innerHTML = html;
+
+}
 </script>
 
 </body>
